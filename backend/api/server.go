@@ -20,7 +20,7 @@ func NewServer(store sqlc.Store) *Server {
 
 	router.POST("/user", server.createUser)
 	router.GET("/user", server.getUser)
-	router.GET("/user/auth", server.authUser)
+	router.POST("/user/auth", server.authUser)
 	router.POST("/user/contact", server.addContact)
 
 	server.router = router

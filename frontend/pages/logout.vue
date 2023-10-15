@@ -15,5 +15,6 @@ watch(isLogin, (newVal) => {
     navigateTo('/')
   }
 })
+
 loginStore.updateLogin(false)
 </script>

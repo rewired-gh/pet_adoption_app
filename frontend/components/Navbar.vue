@@ -30,9 +30,6 @@
           <NavButton link="/logout"> 登出 </NavButton>
         </li>
         <li v-if="!isLogin">
-          <NavButton link="/"> 登录 </NavButton>
-        </li>
-        <li v-if="!isLogin">
           <NavButton link="/register"> 注册 </NavButton>
         </li>
         <li>
