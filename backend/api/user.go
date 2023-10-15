@@ -143,7 +143,7 @@ type addContactsRequest struct {
 	}
 }
 
-func (server *Server) addContact(ctx *gin.Context) {
+func (server *Server) addContacts(ctx *gin.Context) {
 	var req addContactsRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -166,4 +166,31 @@ func (server *Server) addContact(ctx *gin.Context) {
 	}
 
 	ctx.String(http.StatusOK, "")
+}
+
+type getRolesRequest struct {
+	Uid int32
+}
+
+type getRolesResponse struct {
+	Roles []string
+}
+
+func (server *Server) getRoles(ctx *gin.Context) {
+	var req getRolesRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	roles, err := server.store.GetRoles(ctx, req.Uid)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, getRolesResponse{
+		Roles: roles,
+	})
 }

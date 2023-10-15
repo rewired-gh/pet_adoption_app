@@ -18,10 +18,13 @@ func NewServer(store sqlc.Store) *Server {
 	router := gin.Default()
 	router.Use(cors.Default())
 
-	router.POST("/user", server.createUser)
-	router.GET("/user", server.getUser)
+	router.POST("/user/new", server.createUser)
+	router.POST("/user/get-info", server.getUser)
 	router.POST("/user/auth", server.authUser)
-	router.POST("/user/contact", server.addContact)
+	router.POST("/user/add-contacts", server.addContacts)
+	router.POST("/user/get-roles", server.getRoles)
+
+	router.POST("/pet/new", server.createPet)
 
 	server.router = router
 	return server

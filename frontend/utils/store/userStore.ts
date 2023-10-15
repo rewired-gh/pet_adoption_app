@@ -1,31 +1,24 @@
-// import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
+import { useLoginStore } from './loginStore'
 
-// export const useUserStore = defineStore('user', () => {
-//   const username = ref('')
-//   const gender = ref('')
-//   const birthday = ref('')
-//   const province = ref('')
-//   const city = ref('')
-//   const district = ref('')
+export const useUserStore = defineStore('role', () => {
+  const roles = ref([''])
+  const loginStore = useLoginStore()
+  const { uid } = storeToRefs(loginStore)
 
-//   const createData = async () => {
+  const createData = async () => {
+    const req = {
+      Uid: uid.value,
+    }
+    const res = await fetchR('/user/get-roles', req)
+    if (res) {
+      roles.value = res['Roles'] as string[]
+    }
+  }
 
-//     let res = null;
-//     try {
-//       res = await fetch(`${conf.baseApi}/user`, {
-//         method: 'GET',
-//         body: JSON.stringify(req),
-//       })
-//     }
-//   }
+  onMounted(async () => {
+    await createData()
+  })
 
-//   onMounted(async () => {
-//     await createData()
-//   })
-
-//   return {
-//     rows,
-//     loading,
-//     rawData,
-//   }
-// })
+  return { roles }
+})

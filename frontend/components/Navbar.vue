@@ -22,15 +22,13 @@
           <NavButton v-else link="/"> 主页 </NavButton>
         </li>
         <li v-if="isLogin">
-          <NavButton link="http://baidu.com" :is-external-link="true">
-            个人中心
-          </NavButton>
-        </li>
-        <li v-if="isLogin">
           <NavButton link="/logout"> 登出 </NavButton>
         </li>
         <li v-if="!isLogin">
           <NavButton link="/register"> 注册 </NavButton>
+        </li>
+        <li v-if="isLogin && isAdmin">
+          <NavButton link="/console/pets"> 控制台 </NavButton>
         </li>
         <li>
           <NavButton link="http://baidu.com" :is-external-link="true">
@@ -48,6 +46,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useLoginStore } from '~/utils/store/loginStore'
+import { useUserStore } from '~/utils/store/userStore'
 
 defineProps<{
   titleName: string
@@ -55,4 +54,12 @@ defineProps<{
 
 const loginStore = useLoginStore()
 const { isLogin, username } = storeToRefs(loginStore)
+const userStore = useUserStore()
+const { roles } = storeToRefs(userStore)
+
+var adminSet = new Set(['user_admin', 'reviewer'])
+const isAdmin = computed(() => {
+  return roles.value.filter((role) => adminSet.has(role)).length > 0
+})
 </script>
+~/utils/store/userStore

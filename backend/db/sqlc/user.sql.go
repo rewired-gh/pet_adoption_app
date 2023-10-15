@@ -81,6 +81,35 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
 	return err
 }
 
+const getRoles = `-- name: GetRoles :many
+select distinct ` + "`" + `role` + "`" + `.rolename from ` + "`" + `user_role` + "`" + `
+join ` + "`" + `role` + "`" + ` on ` + "`" + `role` + "`" + `.role_id = user_role.role_id
+where user_role.` + "`" + `uid` + "`" + ` = ?
+`
+
+func (q *Queries) GetRoles(ctx context.Context, uid int32) ([]string, error) {
+	rows, err := q.db.QueryContext(ctx, getRoles, uid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []string{}
+	for rows.Next() {
+		var rolename string
+		if err := rows.Scan(&rolename); err != nil {
+			return nil, err
+		}
+		items = append(items, rolename)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getUser = `-- name: GetUser :one
 select username, gender, birthday, province, city, district
 from ` + "`" + `user` + "`" + `

@@ -29,3 +29,8 @@ insert into `contact` (
 ) values (
     ?, ?, ?
 );
+
+-- name: GetRoles :many
+select distinct `role`.rolename from `user_role`
+join `role` on `role`.role_id = user_role.role_id
+where user_role.`uid` = ?;

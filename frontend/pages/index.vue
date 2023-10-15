@@ -70,17 +70,8 @@ const onLogin = async () => {
     Username: username.value,
     Pword: pword.value,
   }
-  let res = null
-  try {
-    res = await fetch(`${conf.baseApi}/user/auth`, {
-      method: 'POST',
-      body: JSON.stringify(req),
-    })
-  } catch (e) {
-    isLogining.value = false
-    return
-  }
-  if (res && res.ok) {
+  const res = await fetchR('/user/auth', req)
+  if (res) {
     const uid: number = (await res.json()).Uid
     loginStore.updateLogin(true)
     loginStore.updateUid(uid)

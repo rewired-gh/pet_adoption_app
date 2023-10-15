@@ -281,6 +281,7 @@ const store = useLoginStore()
 
 const onRegister = async () => {
   isRegistering.value = true
+  let isErr = false
   const req = {
     LocationID: locationId.value,
     Username: username.value,
@@ -288,18 +289,9 @@ const onRegister = async () => {
     Gender: gender.value,
     Birthday: (birthday.value[0] as Date).toISOString(),
   }
-  let isErr = false
-  let res = null
-  try {
-    res = await fetch(`${conf.baseApi}/user`, {
-      method: 'POST',
-      body: JSON.stringify(req),
-    })
-  } catch (e) {
-    isErr = true
-  }
-  if (res && res.ok) {
-    const uid: number = (await res.json())['Uid']
+  const res = await fetchR('/user/new', req)
+  if (res) {
+    const uid: number = res['Uid']
     const contactReq = {
       Uid: uid,
       Contacts: contacts
@@ -309,16 +301,8 @@ const onRegister = async () => {
           Content: contact.content,
         })),
     }
-    let contactRes = null
-    try {
-      contactRes = await fetch(`${conf.baseApi}/user/contact`, {
-        method: 'POST',
-        body: JSON.stringify(contactReq),
-      })
-    } catch (e) {
-      isErr = true
-    }
-    if (contactRes && contactRes.ok) {
+    const contactRes = await fetchR('/user/add-contacts', contactReq)
+    if (contactRes) {
       store.updateLogin(true)
       store.updateUid(uid)
       store.updateUsername(req.Username)
