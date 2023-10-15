@@ -1,0 +1,35 @@
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $font-size: (
+    'extra-large': 22px,
+    'large': 20px,
+    'medium': 18px,
+    'base': 16px,
+    'small': 14px,
+    'extra-small': 12px,
+  ),
+  $colors: (
+    'primary': (
+      'base': rgb(74 222 128),
+    ),
+  ),
+  $border-radius: (
+    'base': 10px,
+    'small': 2px,
+    'round': 20px,
+    'circle': 100%,
+  ),
+  $input-padding-horizontal: (
+    'large': 14px,
+    'default': 12px,
+    'small': 8px,
+  ),
+  $select-dropdown: (
+    'bg-color': getCssVar('bg-color', 'overlay'),
+    'shadow': getCssVar('box-shadow-light'),
+    'empty-color': getCssVar('text-color-secondary'),
+    'max-height': 274px,
+    'padding': 6px 0,
+    'empty-padding': 2px 0,
+    'border': 1px solid getCssVar('border-color-light'),
+  )
+);

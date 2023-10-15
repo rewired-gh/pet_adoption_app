@@ -7,8 +7,48 @@ package sqlc
 
 import (
 	"context"
+	"database/sql"
 	"time"
 )
+
+const addContact = `-- name: AddContact :exec
+insert into ` + "`" + `contact` + "`" + ` (
+    ` + "`" + `uid` + "`" + `,
+    kind,
+    content
+) values (
+    ?, ?, ?
+)
+`
+
+type AddContactParams struct {
+	Uid     int32  `json:"uid"`
+	Kind    string `json:"kind"`
+	Content string `json:"content"`
+}
+
+func (q *Queries) AddContact(ctx context.Context, arg AddContactParams) error {
+	_, err := q.db.ExecContext(ctx, addContact, arg.Uid, arg.Kind, arg.Content)
+	return err
+}
+
+const authUser = `-- name: AuthUser :one
+select ` + "`" + `uid` + "`" + ` from ` + "`" + `user` + "`" + `
+where username = ? and pword = ?
+limit 1
+`
+
+type AuthUserParams struct {
+	Username string `json:"username"`
+	Pword    string `json:"pword"`
+}
+
+func (q *Queries) AuthUser(ctx context.Context, arg AuthUserParams) (int32, error) {
+	row := q.db.QueryRowContext(ctx, authUser, arg.Username, arg.Pword)
+	var uid int32
+	err := row.Scan(&uid)
+	return uid, err
+}
 
 const createUser = `-- name: CreateUser :exec
 insert into ` + "`" + `user` + "`" + ` (
@@ -42,26 +82,32 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
 }
 
 const getUser = `-- name: GetUser :one
-select uid, location_id, username, pword, gender, birthday from ` + "`" + `user` + "`" + `
-where username = ? and pword = ?
+select username, gender, birthday, province, city, district
+from ` + "`" + `user` + "`" + `
+join ` + "`" + `location` + "`" + ` on ` + "`" + `user` + "`" + `.location_id = ` + "`" + `location` + "`" + `.location_id
+where ` + "`" + `user` + "`" + `.` + "`" + `uid` + "`" + ` = ?
 limit 1
 `
 
-type GetUserParams struct {
-	Username string `json:"username"`
-	Pword    string `json:"pword"`
+type GetUserRow struct {
+	Username string         `json:"username"`
+	Gender   string         `json:"gender"`
+	Birthday time.Time      `json:"birthday"`
+	Province string         `json:"province"`
+	City     sql.NullString `json:"city"`
+	District string         `json:"district"`
 }
 
-func (q *Queries) GetUser(ctx context.Context, arg GetUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUser, arg.Username, arg.Pword)
-	var i User
+func (q *Queries) GetUser(ctx context.Context, uid int32) (GetUserRow, error) {
+	row := q.db.QueryRowContext(ctx, getUser, uid)
+	var i GetUserRow
 	err := row.Scan(
-		&i.Uid,
-		&i.LocationID,
 		&i.Username,
-		&i.Pword,
 		&i.Gender,
 		&i.Birthday,
+		&i.Province,
+		&i.City,
+		&i.District,
 	)
 	return i, err
 }

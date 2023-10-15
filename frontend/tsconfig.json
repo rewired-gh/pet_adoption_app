@@ -1,0 +1,16 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "include": [
+    "./.nuxt/nuxt.d.ts",
+    "./**/*",
+    "node_modules/@pinia/nuxt/runtime",
+    "node_modules/@nuxtjs/color-mode/runtime",
+    "node_modules/nuxt-icon/runtime",
+    "node_modules/dayjs-nuxt/runtime",
+    "node_modules/@element-plus/nuxt/runtime",
+    "node_modules/@nuxt/devtools/runtime",
+    "node_modules/@nuxt/telemetry/runtime",
+    "./"
+  ],
+}
