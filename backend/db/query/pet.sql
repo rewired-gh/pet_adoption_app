@@ -25,13 +25,15 @@ delete from pet
 where pet_id = ?;
 
 -- name: ListPet :many
-select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender
+select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender, user.username
 from pet
+join user on pet.uid = user.uid
 join category on pet.category_id = category.category_id;
 
 -- name: ListAvailablePet :many
-select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender
+select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender, user.username
 from pet
+join user on pet.uid = user.uid
 join category on pet.category_id = category.category_id
 left join adoption on pet.pet_id = adoption.pet_id and adoption.uid = ?
-where adoption.uid is null;
+where pet.is_adopted = false and adoption.uid is null;

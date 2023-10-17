@@ -33,6 +33,8 @@ func NewServer(store sqlc.Store) *Server {
 	router.POST("/adoption/new", server.createAdoption)
 	router.POST("/adoption/list-user", server.listUserAdoption)
 
+	router.POST("/role/apply", server.applyRole)
+
 	server.router = router
 	return server
 }

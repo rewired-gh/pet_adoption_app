@@ -97,6 +97,11 @@ type getUserRequest struct {
 	Uid int32
 }
 
+type responseContact struct {
+	Kind    string
+	Content string
+}
+
 type getUserResponse struct {
 	Username string
 	Gender   string
@@ -104,6 +109,7 @@ type getUserResponse struct {
 	Province string
 	City     string
 	District string
+	Contacts []responseContact
 }
 
 func (server *Server) getUser(ctx *gin.Context) {
@@ -125,6 +131,21 @@ func (server *Server) getUser(ctx *gin.Context) {
 		city = ""
 	}
 
+	contacts, err := server.store.GetContacts(ctx, req.Uid)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	resContacts := make([]responseContact, len(contacts))
+	for i, contact := range contacts {
+		resContacts[i] = responseContact{
+			Kind:    contact.Kind,
+			Content: contact.Content,
+		}
+	}
+
 	ctx.JSON(http.StatusOK, getUserResponse{
 		Username: user.Username,
 		Gender:   user.Gender,
@@ -132,6 +153,7 @@ func (server *Server) getUser(ctx *gin.Context) {
 		Province: user.Province,
 		City:     city,
 		District: user.District,
+		Contacts: resContacts,
 	})
 }
 

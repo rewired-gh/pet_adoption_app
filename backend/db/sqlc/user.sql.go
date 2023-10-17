@@ -81,6 +81,39 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
 	return err
 }
 
+const getContacts = `-- name: GetContacts :many
+select kind, content from contact
+where ` + "`" + `uid` + "`" + ` = ?
+`
+
+type GetContactsRow struct {
+	Kind    string `json:"kind"`
+	Content string `json:"content"`
+}
+
+func (q *Queries) GetContacts(ctx context.Context, uid int32) ([]GetContactsRow, error) {
+	rows, err := q.db.QueryContext(ctx, getContacts, uid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetContactsRow{}
+	for rows.Next() {
+		var i GetContactsRow
+		if err := rows.Scan(&i.Kind, &i.Content); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getRoles = `-- name: GetRoles :many
 select distinct ` + "`" + `role` + "`" + `.rolename from ` + "`" + `user_role` + "`" + `
 join ` + "`" + `role` + "`" + ` on ` + "`" + `role` + "`" + `.role_id = user_role.role_id

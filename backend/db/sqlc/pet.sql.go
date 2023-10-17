@@ -55,11 +55,12 @@ func (q *Queries) DeletePet(ctx context.Context, petID int32) error {
 }
 
 const listAvailablePet = `-- name: ListAvailablePet :many
-select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender
+select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender, user.username
 from pet
+join user on pet.uid = user.uid
 join category on pet.category_id = category.category_id
 left join adoption on pet.pet_id = adoption.pet_id and adoption.uid = ?
-where adoption.uid is null
+where pet.is_adopted = false and adoption.uid is null
 `
 
 type ListAvailablePetRow struct {
@@ -74,6 +75,7 @@ type ListAvailablePetRow struct {
 	Species     string         `json:"species"`
 	Color       sql.NullString `json:"color"`
 	Gender      sql.NullString `json:"gender"`
+	Username    string         `json:"username"`
 }
 
 func (q *Queries) ListAvailablePet(ctx context.Context, uid int32) ([]ListAvailablePetRow, error) {
@@ -97,6 +99,7 @@ func (q *Queries) ListAvailablePet(ctx context.Context, uid int32) ([]ListAvaila
 			&i.Species,
 			&i.Color,
 			&i.Gender,
+			&i.Username,
 		); err != nil {
 			return nil, err
 		}
@@ -112,8 +115,9 @@ func (q *Queries) ListAvailablePet(ctx context.Context, uid int32) ([]ListAvaila
 }
 
 const listPet = `-- name: ListPet :many
-select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender
+select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender, user.username
 from pet
+join user on pet.uid = user.uid
 join category on pet.category_id = category.category_id
 `
 
@@ -129,6 +133,7 @@ type ListPetRow struct {
 	Species     string         `json:"species"`
 	Color       sql.NullString `json:"color"`
 	Gender      sql.NullString `json:"gender"`
+	Username    string         `json:"username"`
 }
 
 func (q *Queries) ListPet(ctx context.Context) ([]ListPetRow, error) {
@@ -152,6 +157,7 @@ func (q *Queries) ListPet(ctx context.Context) ([]ListPetRow, error) {
 			&i.Species,
 			&i.Color,
 			&i.Gender,
+			&i.Username,
 		); err != nil {
 			return nil, err
 		}

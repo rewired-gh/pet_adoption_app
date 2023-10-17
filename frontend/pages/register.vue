@@ -113,23 +113,23 @@
           <ElInput v-model="contacts[1].content" size="large" />
         </div>
       </BaseWithLabel>
-      <BaseWithLabel>
-        <template #label>
-          <span
-            class="after:transition after:content-['必填'] after:text-red-300 after:ml-2"
-            :class="birthday ? 'after:text-transparent' : ''"
-          >
-            出生日期
-          </span>
-        </template>
-        <ElDatePicker
-          v-model="birthday"
-          type="dates"
-          placeholder="请选择"
-          size="large"
-        />
-      </BaseWithLabel>
-      <div class="flex space-x-6 items-end">
+      <div class="flex space-x-6">
+        <BaseWithLabel>
+          <template #label>
+            <span
+              class="after:transition after:content-['必填'] after:text-red-300 after:ml-2"
+              :class="birthday ? 'after:text-transparent' : ''"
+            >
+              出生日期
+            </span>
+          </template>
+          <ElDatePicker
+            v-model="birthday"
+            type="dates"
+            placeholder="请选择"
+            size="large"
+          />
+        </BaseWithLabel>
         <BaseWithLabel>
           <template #label>
             <span
@@ -144,7 +144,20 @@
             placeholder="请选择"
             :options="genderOptions"
             size="large"
-            class="max-w-[7em]"
+          />
+        </BaseWithLabel>
+      </div>
+      <div class="flex space-x-6 items-end">
+        <BaseWithLabel>
+          <template #label>
+            <span> 管理员 </span>
+          </template>
+          <ElSelectV2
+            v-model="isAdmin"
+            placeholder="请选择"
+            :options="whetherOptions"
+            size="large"
+            class="w-24"
           />
         </BaseWithLabel>
         <BaseWithLabel class="grow">
@@ -303,10 +316,21 @@ const onRegister = async () => {
     }
     const contactRes = await fetchR('/user/add-contacts', contactReq)
     if (contactRes) {
-      store.updateLogin(true)
-      store.updateUid(uid)
-      store.updateUsername(req.Username)
-      navigateTo('/explore')
+      const roleReq = {
+        Uid: uid,
+        IsReviewer: isAdmin.value,
+        IsUserAdmin: isAdmin.value,
+      }
+      const roleRes = await fetchR('/role/apply', roleReq)
+
+      if (roleRes) {
+        store.updateLogin(true)
+        store.updateUid(uid)
+        store.updateUsername(req.Username)
+        navigateTo('/explore')
+      } else {
+        isErr = true
+      }
     } else {
       isErr = true
     }
@@ -338,4 +362,16 @@ const contacts: Contact[] = reactive(
       content: '',
     }))
 )
+
+const whetherOptions = [
+  {
+    label: '是',
+    value: true,
+  },
+  {
+    label: '否',
+    value: false,
+  },
+]
+const isAdmin = ref(false)
 </script>

@@ -99,6 +99,7 @@ func petRowsToResList(rows []sqlc.ListPetRow) (res []listPetResponseEntry) {
 		res[i] = listPetResponseEntry{
 			PetID:       pet.PetID,
 			Uid:         pet.Uid,
+			Username:    pet.Username,
 			CategoryID:  pet.CategoryID,
 			Nickname:    pet.Nickname,
 			Birthday:    birthdayStr,
@@ -116,6 +117,7 @@ func petRowsToResList(rows []sqlc.ListPetRow) (res []listPetResponseEntry) {
 type listPetResponseEntry struct {
 	PetID       int32
 	Uid         int32
+	Username    string
 	CategoryID  int32
 	Nickname    string
 	Birthday    string

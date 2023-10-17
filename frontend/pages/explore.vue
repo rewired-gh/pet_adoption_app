@@ -31,7 +31,7 @@
           </div>
           <Icon
             name="mdi:paw"
-            class="right-0 -bottom-3 -rotate-[24deg] absolute text-7xl"
+            class="transition-colors duration-500 right-0 -bottom-3 -rotate-[24deg] absolute text-7xl"
             :class="getRandomColorStyle('text', '100')"
           />
         </li>
@@ -108,6 +108,16 @@
             <span>发布日期</span>
           </template>
           <span class="text-lg ml-2">{{ selectedPet.publishDate }}</span>
+        </BaseWithLabel>
+        <BaseWithLabel>
+          <template #label>
+            <span>发布者</span>
+          </template>
+          <NuxtLink
+            :to="`/user/${selectedPet.uid}`"
+            class="text-lg ml-2 underline underline-offset-4 text-green-400 max-w-0"
+            >{{ selectedPet.username }}</NuxtLink
+          >
         </BaseWithLabel>
         <BaseWithLabel class="col-span-full">
           <template #label>
@@ -213,6 +223,8 @@ const selectedPet = computed(() => {
       : '未知',
     publishDate: dayjs(pet['PublishDate']).format('YYYY/MM/DD'),
     description: pet['Description'],
+    username: pet['Username'],
+    uid: pet['Uid'],
   }
 })
 
