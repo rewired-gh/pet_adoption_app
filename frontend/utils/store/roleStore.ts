@@ -1,7 +1,7 @@
 import { defineStore, storeToRefs } from 'pinia'
 import { useLoginStore } from './loginStore'
 
-export const useUserStore = defineStore('role', () => {
+export const useRoleStore = defineStore('role', () => {
   const roles = ref([''])
   const loginStore = useLoginStore()
   const { uid } = storeToRefs(loginStore)

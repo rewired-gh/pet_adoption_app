@@ -25,7 +25,7 @@
   "dependencies": {
     "@iconify/json": "^2.2.126",
     "@pinia/nuxt": "^0.4.11",
-    "dayjs": "^1.11.9",
+    "dayjs": "^1.11.10",
     "element-plus": "^2.4.0",
     "pinia": "^2.1.6"
   },

@@ -25,6 +25,13 @@ func NewServer(store sqlc.Store) *Server {
 	router.POST("/user/get-roles", server.getRoles)
 
 	router.POST("/pet/new", server.createPet)
+	router.POST("/pet/list", server.listPet)
+	router.POST("/pet/list-explore", server.listAvailablePet)
+	router.POST("/pet/delete", server.deletePet)
+	router.POST("/pet/update", server.updatePet)
+
+	router.POST("/adoption/new", server.createAdoption)
+	router.POST("/adoption/list-user", server.listUserAdoption)
 
 	server.router = router
 	return server

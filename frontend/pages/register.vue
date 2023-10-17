@@ -119,7 +119,7 @@
             class="after:transition after:content-['必填'] after:text-red-300 after:ml-2"
             :class="birthday ? 'after:text-transparent' : ''"
           >
-            生日
+            出生日期
           </span>
         </template>
         <ElDatePicker
@@ -144,7 +144,7 @@
             placeholder="请选择"
             :options="genderOptions"
             size="large"
-            class="w-44"
+            class="max-w-[7em]"
           />
         </BaseWithLabel>
         <BaseWithLabel class="grow">

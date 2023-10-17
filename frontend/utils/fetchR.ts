@@ -7,7 +7,11 @@ export const fetchR = async (apiPath: string, req: Object) => {
     })
   } catch (e) {}
   if (res && res.ok) {
-    return await res.json()
+    try {
+      return await res.json()
+    } catch (e) {
+      return {}
+    }
   }
   return null
 }

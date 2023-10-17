@@ -72,7 +72,7 @@ const onLogin = async () => {
   }
   const res = await fetchR('/user/auth', req)
   if (res) {
-    const uid: number = (await res.json()).Uid
+    const uid: number = res.Uid
     loginStore.updateLogin(true)
     loginStore.updateUid(uid)
     loginStore.updateUsername(req.Username)
