@@ -1,25 +1,21 @@
 import { defineStore, storeToRefs } from 'pinia'
 import { useLoginStore } from './loginStore'
 
-export const usePetStore = defineStore('pet', {
+export const useReviewerAdoptionStore = defineStore('reviewer-adoption', {
   state: () => ({
-    pets: [],
+    adoptions: [],
   }),
   actions: {
-    async updatePets(isExplore: boolean = false) {
+    async updateAdoptions() {
       const loginStore = useLoginStore()
       const { uid } = storeToRefs(loginStore)
+
       const req = {
         Uid: uid.value,
       }
-      let res
-      if (isExplore) {
-        res = await fetchR('/pet/list-explore', req)
-      } else {
-        res = await fetchR('/pet/list', req)
-      }
+      const res = await fetchR('/adoption/list-reviewer', req)
       if (res) {
-        this.pets = res
+        this.adoptions = res
       }
     },
   },

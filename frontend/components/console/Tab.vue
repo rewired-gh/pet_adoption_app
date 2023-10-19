@@ -4,7 +4,7 @@ import { progressProps } from 'element-plus';
     <template #default="{ isActive }">
       <a
         :href="$props.link"
-        class="px-6 py-4 w-full transition-colors whitespace-nowrap after:transition-all relative inline-block hover:bg-green-50 after:block after:absolute after:right-0 after:top-0 after:translate-x-1 after:h-full after:w-2 rounded-l-full"
+        class="px-8 py-4 w-full transition-colors whitespace-nowrap after:transition-all relative inline-block hover:bg-green-50 after:block after:absolute after:right-0 after:top-0 after:translate-x-1 after:h-full after:w-2 rounded-l-full"
         :class="getButtonStyle(isActive)"
       >
         <slot />

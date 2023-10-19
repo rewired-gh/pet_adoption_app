@@ -32,6 +32,8 @@ func NewServer(store sqlc.Store) *Server {
 
 	router.POST("/adoption/new", server.createAdoption)
 	router.POST("/adoption/list-user", server.listUserAdoption)
+	router.POST("/adoption/list-reviewer", server.listReviewerAdoption)
+	router.POST("/adoption/review", server.reviewAdoption)
 
 	router.POST("/role/apply", server.applyRole)
 

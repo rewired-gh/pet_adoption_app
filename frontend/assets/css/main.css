@@ -4,5 +4,6 @@
 
 @font-face {
   font-family: 'YuFeiTe';
-  src: url('/font/YuFeiTe.ttf');
+  src: url('~/assets/font/YuFeiTe.ttf');
+  src: local('YouSheShaYuFeiTeJianKangTi');
 }

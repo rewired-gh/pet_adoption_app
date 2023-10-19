@@ -22,6 +22,9 @@
           <NavButton v-else link="/"> 主页 </NavButton>
         </li>
         <li v-if="isLogin">
+          <NavButton :link="`/user/${uid}`"> 我的档案 </NavButton>
+        </li>
+        <li v-if="isLogin">
           <NavButton link="/logout"> 登出 </NavButton>
         </li>
         <li v-if="!isLogin">
@@ -53,7 +56,7 @@ defineProps<{
 }>()
 
 const loginStore = useLoginStore()
-const { isLogin, username } = storeToRefs(loginStore)
+const { isLogin, username, uid } = storeToRefs(loginStore)
 const roleStore = useRoleStore()
 const { roles } = storeToRefs(roleStore)
 

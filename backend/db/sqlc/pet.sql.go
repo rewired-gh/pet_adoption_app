@@ -119,6 +119,7 @@ select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_
 from pet
 join user on pet.uid = user.uid
 join category on pet.category_id = category.category_id
+where pet.uid = ?
 `
 
 type ListPetRow struct {
@@ -136,8 +137,8 @@ type ListPetRow struct {
 	Username    string         `json:"username"`
 }
 
-func (q *Queries) ListPet(ctx context.Context) ([]ListPetRow, error) {
-	rows, err := q.db.QueryContext(ctx, listPet)
+func (q *Queries) ListPet(ctx context.Context, uid int32) ([]ListPetRow, error) {
+	rows, err := q.db.QueryContext(ctx, listPet, uid)
 	if err != nil {
 		return nil, err
 	}

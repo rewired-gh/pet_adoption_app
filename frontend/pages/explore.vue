@@ -1,6 +1,7 @@
 <template>
   <div class="flex max-w-screen-xl w-full space-x-12">
     <div class="w-0 h-0">
+      <div class="text-red-100" />
       <div class="text-pink-100" />
       <div class="text-green-100" />
       <div class="text-lime-100" />
@@ -115,9 +116,11 @@
           </template>
           <NuxtLink
             :to="`/user/${selectedPet.uid}`"
+            target="_blank"
             class="text-lg ml-2 underline underline-offset-4 text-green-400 max-w-0"
-            >{{ selectedPet.username }}</NuxtLink
           >
+            {{ selectedPet.username }}
+          </NuxtLink>
         </BaseWithLabel>
         <BaseWithLabel class="col-span-full">
           <template #label>
@@ -152,7 +155,7 @@ if (!isLogin.value) {
   navigateTo('/')
 }
 
-const colors = ['green', 'pink', 'violet', 'lime']
+const colors = ['green', 'pink', 'red', 'violet', 'lime']
 const getRandomColorStyle = (prefix: string, suffix: string) => {
   const index = Math.floor(Math.random() * colors.length)
   return `${prefix}-${colors[index]}-${suffix}`

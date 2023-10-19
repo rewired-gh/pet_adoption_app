@@ -5,10 +5,13 @@
         <Icon class="text-3xl" name="fluent-emoji:hammer-and-wrench" />
       </template>
     </Navbar>
-    <main class="flex pt-24 h-screen min-w-fit bg-inherit">
-      <ul class="pl-4 w-fit">
+    <main class="flex pt-24 h-screen min-w-fit">
+      <ul class="pl-6 w-fit">
         <li class="w-full">
           <ConsoleTab link="/console/pets">管理宠物信息</ConsoleTab>
+        </li>
+        <li class="w-full">
+          <ConsoleTab link="/console/review">审核领养请求</ConsoleTab>
         </li>
         <li class="w-full">
           <ConsoleTab link="/">管理用户</ConsoleTab>

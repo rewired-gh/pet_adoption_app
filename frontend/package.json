@@ -1,12 +1,13 @@
 {
-  "name": "nuxt-app",
+  "name": "pet-adoption-app",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "build": "bun --bun nuxt build",
+    "dev": "bun --bun nuxt dev",
+    "generate": "bun --bun nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "bun --bun nuxt prepare",
+    "prod": "NODE_ENV=production bun --bun nuxt generate && nuxt preview"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.6",
@@ -25,6 +26,7 @@
   "dependencies": {
     "@iconify/json": "^2.2.126",
     "@pinia/nuxt": "^0.4.11",
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.6",
     "dayjs": "^1.11.10",
     "element-plus": "^2.4.0",
     "pinia": "^2.1.6"

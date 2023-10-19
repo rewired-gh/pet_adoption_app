@@ -114,6 +114,10 @@ func petRowsToResList(rows []sqlc.ListPetRow) (res []listPetResponseEntry) {
 	return
 }
 
+type listPetRequest struct {
+	Uid int32
+}
+
 type listPetResponseEntry struct {
 	PetID       int32
 	Uid         int32
@@ -130,7 +134,13 @@ type listPetResponseEntry struct {
 }
 
 func (server *Server) listPet(ctx *gin.Context) {
-	pets, err := server.store.ListPet(ctx)
+	var req listPetRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	pets, err := server.store.ListPet(ctx, req.Uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return

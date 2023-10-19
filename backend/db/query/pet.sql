@@ -28,7 +28,8 @@ where pet_id = ?;
 select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender, user.username
 from pet
 join user on pet.uid = user.uid
-join category on pet.category_id = category.category_id;
+join category on pet.category_id = category.category_id
+where pet.uid = ?;
 
 -- name: ListAvailablePet :many
 select pet.pet_id, pet.uid, pet.category_id, pet.nickname, pet.birthday, pet.is_adopted, pet.description, pet.publish_date, category.species, category.color, category.gender, user.username

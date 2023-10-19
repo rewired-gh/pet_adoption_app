@@ -23,8 +23,10 @@ type Querier interface {
 	GetRoles(ctx context.Context, uid int32) ([]string, error)
 	GetUser(ctx context.Context, uid int32) (GetUserRow, error)
 	ListAvailablePet(ctx context.Context, uid int32) ([]ListAvailablePetRow, error)
-	ListPet(ctx context.Context) ([]ListPetRow, error)
+	ListPet(ctx context.Context, uid int32) ([]ListPetRow, error)
+	ListReviewerAdoption(ctx context.Context, uid int32) ([]ListReviewerAdoptionRow, error)
 	ListUserAdoption(ctx context.Context, uid int32) ([]ListUserAdoptionRow, error)
+	UpdateAdoptionReview(ctx context.Context, arg UpdateAdoptionReviewParams) error
 	UpdatePet(ctx context.Context, arg UpdatePetParams) error
 }
 

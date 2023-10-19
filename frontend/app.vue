@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <NuxtLayout class="bg-inherit">
-      <NuxtPage class="bg-inherit" />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout class="bg-inherit">
+    <NuxtPage class="bg-inherit" />
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
@@ -18,3 +16,20 @@ useHead({
   ],
 })
 </script>
+
+<style lang="scss">
+.layout-enter-active,
+.layout-leave-active,
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s;
+}
+
+.layout-enter-from,
+.layout-leave-to,
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1em);
+}
+</style>
