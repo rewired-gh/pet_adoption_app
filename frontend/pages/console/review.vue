@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="tsx">
-import { LazyNuxtLink, NuxtLink } from '#build/components'
 import { Column, ElButton, SortBy, TableV2SortOrder, dayjs } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { useReviewerAdoptionStore } from '~/utils/store/reviewerAdoptionStore'
@@ -56,13 +55,13 @@ const columns: Column[] = [
     width: 200,
     sortable: true,
     cellRenderer: ({ cellData: uid }) => (
-      <NuxtLink
+      <a
         class="after:underline after:underline-offset-4 after:text-slate-400 after:text-xs after:ml-1 after:content-['查看详情']"
-        to={`/user/${uid}`}
+        href={`/user/${uid}`}
         target="_blank"
       >
         {uid}
-      </NuxtLink>
+      </a>
     ),
   },
   {
