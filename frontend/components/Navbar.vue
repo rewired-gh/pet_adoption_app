@@ -60,6 +60,8 @@ const { isLogin, username, uid } = storeToRefs(loginStore)
 const roleStore = useRoleStore()
 const { roles } = storeToRefs(roleStore)
 
+roleStore.updateRole()
+
 var adminSet = new Set(['user_admin', 'reviewer'])
 const isAdmin = computed(() => {
   return roles.value.filter((role) => adminSet.has(role)).length > 0

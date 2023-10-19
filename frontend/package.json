@@ -7,7 +7,7 @@
     "generate": "bun --bun nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "bun --bun nuxt prepare",
-    "prod": "NODE_ENV=production bun --bun nuxt generate && nuxt preview"
+    "prod": "NODE_ENV=production bun --bun nuxt build && nuxt preview"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.6",
