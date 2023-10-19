@@ -3,7 +3,9 @@
     class="flex flex-col space-y-20 w-full max-w-screen-xl items-center pt-14"
   >
     <h2
+      ref="board"
       class="text-6xl p-10 rounded-full bg-green-100 shadow-2xl shadow-lime-50"
+      :style="{ translate: boardTranslate }"
     >
       从现在开始，领养一只宠物
     </h2>
@@ -79,4 +81,38 @@ const onLogin = async () => {
   }
   isLogining.value = false
 }
+
+const board: Ref<HTMLElement | null> = ref(null)
+const mouseRect: Ref<{ x: number; y: number } | null> = ref(null)
+
+const mouseEvent = (ev: MouseEvent) => {
+  mouseRect.value = {
+    x: ev.clientX,
+    y: ev.clientY,
+  }
+}
+if (process.browser) {
+  window.addEventListener('mousemove', mouseEvent)
+  onUnmounted(() => {
+    window.removeEventListener('mousemove', mouseEvent)
+  })
+}
+
+const boardRect = computed(() => {
+  return board.value?.getBoundingClientRect()
+})
+
+const boardTranslate = computed(() => {
+  if (!boardRect.value || !mouseRect.value) {
+    return 'none'
+  }
+  const x = boardRect.value.left + boardRect.value.width / 2
+  const y = boardRect.value.top + boardRect.value.height / 2
+  const odx = mouseRect.value.x - x
+  const ody = mouseRect.value.y - y
+  const dx = (Math.sign(odx) * Math.sqrt(Math.abs(odx))) / 4
+  const dy = (Math.sign(ody) * Math.sqrt(Math.abs(ody))) / 4
+  console.log(`${dx}px ${dy}px`)
+  return `${dx}px ${dy}px`
+})
 </script>
