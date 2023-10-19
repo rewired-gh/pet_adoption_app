@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="tsx">
+import { LazyNuxtLink, NuxtLink } from '#build/components'
 import { Column, ElButton, SortBy, TableV2SortOrder, dayjs } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { useReviewerAdoptionStore } from '~/utils/store/reviewerAdoptionStore'
